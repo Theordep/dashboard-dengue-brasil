@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
-import { readJsonFile } from '@/lib/fileReader';
+import data from '@/data/dengue_statistics.json';
 
 export async function GET() {
     try {
-        const data = readJsonFile('dengue_statistics.json');
 
         const scData = data.santa_catarina || {};
 

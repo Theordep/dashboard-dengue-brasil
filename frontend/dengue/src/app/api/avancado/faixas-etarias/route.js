@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
-import { readJsonFile } from '@/lib/fileReader';
+import data from '@/data/dengue_advanced_statistics.json';
 
 export async function GET() {
     try {
-        const data = readJsonFile('dengue_advanced_statistics.json');
 
         const faixasData = data.faixa_etaria || {};
         const ordem_faixas = ['0-4', '5-14', '15-29', '30-44', '45-59', '60+'];

@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
-import { readJsonFile } from '@/lib/fileReader';
+import data from '@/data/dengue_advanced_statistics.json';
 
 export async function GET() {
     try {
-        const data = readJsonFile('dengue_advanced_statistics.json');
 
         const generoData = data.genero_detalhado || {};
         const distribuicao = generoData.distribuicao_por_faixa || {};

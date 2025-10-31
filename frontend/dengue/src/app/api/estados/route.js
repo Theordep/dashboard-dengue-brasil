@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { readJsonFile } from '@/lib/fileReader';
+import data from '@/data/dengue_statistics.json';
 
 const UF_CODES = {
     '11': 'Rondônia', '12': 'Acre', '13': 'Amazonas', '14': 'Roraima', '15': 'Pará',
@@ -13,7 +13,6 @@ const UF_CODES = {
 
 export async function GET() {
     try {
-        const data = readJsonFile('dengue_statistics.json');
 
         const estadosData = data.por_estado || {};
         const estados_com_nomes = [];

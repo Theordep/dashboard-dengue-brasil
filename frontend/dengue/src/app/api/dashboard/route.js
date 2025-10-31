@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { readJsonFile } from '@/lib/fileReader';
+// Importar JSON diretamente - funciona no Vercel
+import data from '@/data/dengue_statistics.json';
 
 export async function GET() {
     try {
-        const data = readJsonFile('dengue_statistics.json');
 
         // Preparar resposta no formato esperado
         const response = {

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { readJsonFile } from '@/lib/fileReader';
+import data from '@/data/dengue_advanced_statistics.json';
 
 const nomes_municipios = {
     '420540': 'Florianópolis',
@@ -17,7 +17,6 @@ const nomes_municipios = {
 
 export async function GET() {
     try {
-        const data = readJsonFile('dengue_advanced_statistics.json');
 
         const scData = data.santa_catarina || {};
         const municipios_data = scData.municipios || {};
