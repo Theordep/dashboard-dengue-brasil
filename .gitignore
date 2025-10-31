@@ -95,6 +95,9 @@ Thumbs.db
 !frontend/dengue/src/data/*.json
 # Allow Vercel config
 !frontend/dengue/vercel.json
+# Allow Next.js config files
+!frontend/dengue/jsconfig.json
+!frontend/dengue/tsconfig.json
 
 # Logs
 logs/
