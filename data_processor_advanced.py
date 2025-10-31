@@ -46,7 +46,36 @@ class DengueAdvancedProcessor:
         self.df['SG_UF_NOT'] = self.df['SG_UF_NOT'].astype(str)
         self.df['ID_MUNICIP'] = self.df['ID_MUNICIP'].astype(str)
         self.df['DT_NOTIFIC'] = pd.to_datetime(self.df['DT_NOTIFIC'], errors='coerce')
-        self.df['NU_IDADE_N'] = pd.to_numeric(self.df['NU_IDADE_N'], errors='coerce')
+        
+        # Converter ANO_NASC para numérico
+        self.df['ANO_NASC'] = pd.to_numeric(self.df['ANO_NASC'], errors='coerce')
+        
+        # Calcular idade em anos a partir do ANO_NASC e ano da notificação
+        if 'ANO_NASC' in self.df.columns and 'NU_ANO' in self.df.columns:
+            # Calcular idade aproximada: ano da notificação - ano de nascimento
+            self.df['IDADE_ANOS'] = self.df['NU_ANO'] - self.df['ANO_NASC']
+            # Filtrar idades inválidas (negativas, muito altas)
+            self.df['IDADE_ANOS'] = self.df['IDADE_ANOS'].apply(
+                lambda x: x if pd.notna(x) and 0 <= x <= 120 else pd.NA
+            )
+            print(f"Idade calculada para {self.df['IDADE_ANOS'].notna().sum():,} registros")
+        else:
+            # Fallback: tentar usar NU_IDADE_N se disponível (pode estar em dias, converter para anos)
+            self.df['NU_IDADE_N'] = pd.to_numeric(self.df['NU_IDADE_N'], errors='coerce')
+            # Se os valores são muito grandes (> 1000), pode estar em dias
+            if self.df['NU_IDADE_N'].notna().any():
+                max_val = self.df['NU_IDADE_N'].max()
+                if max_val > 1000:
+                    # Provavelmente está em dias, converter para anos aproximados
+                    self.df['IDADE_ANOS'] = (self.df['NU_IDADE_N'] / 365.25).round().astype('Int64')
+                    self.df['IDADE_ANOS'] = self.df['IDADE_ANOS'].apply(
+                        lambda x: x if pd.notna(x) and 0 <= x <= 120 else pd.NA
+                    )
+                else:
+                    # Usar diretamente se parece estar em anos
+                    self.df['IDADE_ANOS'] = self.df['NU_IDADE_N'].apply(
+                        lambda x: x if pd.notna(x) and 0 <= x <= 120 else pd.NA
+                    )
         
         # Adicionar coluna de mês para análises temporais
         self.df['MES'] = self.df['DT_NOTIFIC'].dt.month
@@ -60,12 +89,24 @@ class DengueAdvancedProcessor:
         bins = [0, 5, 15, 30, 45, 60, 150]
         labels = ['0-4', '5-14', '15-29', '30-44', '45-59', '60+']
         
-        self.df['FAIXA_ETARIA'] = pd.cut(
-            self.df['NU_IDADE_N'], 
-            bins=bins, 
-            labels=labels, 
-            right=False
-        )
+        # Usar IDADE_ANOS calculada ao invés de NU_IDADE_N
+        if 'IDADE_ANOS' not in self.df.columns:
+            print("ERRO: Coluna IDADE_ANOS nao encontrada!")
+            return None
+        
+        # Inicializar com NaN
+        self.df['FAIXA_ETARIA'] = pd.NA
+        
+        # Filtrar apenas registros com idade válida
+        mask_idade_valida = self.df['IDADE_ANOS'].notna()
+        
+        if mask_idade_valida.any():
+            self.df.loc[mask_idade_valida, 'FAIXA_ETARIA'] = pd.cut(
+                self.df.loc[mask_idade_valida, 'IDADE_ANOS'], 
+                bins=bins, 
+                labels=labels, 
+                right=False
+            )
         
         return self.df['FAIXA_ETARIA']
     
@@ -131,17 +172,22 @@ class DengueAdvancedProcessor:
         # Categorizar faixas etárias
         self._categorize_age_groups()
         
-        # Contagem por faixa etária
+        # Garantir que todas as faixas etárias estejam presentes, mesmo com 0 casos
+        todas_faixas = ['0-4', '5-14', '15-29', '30-44', '45-59', '60+']
+        
+        # Contagem por faixa etária (incluindo NaN)
         age_counts = self.df['FAIXA_ETARIA'].value_counts().sort_index()
         
         # Calcular letalidade por faixa etária (evolução = 2 é óbito por dengue)
         letalidade_por_faixa = {}
-        for faixa in age_counts.index:
+        
+        # Processar todas as faixas, garantindo que todas estejam no resultado
+        for faixa in todas_faixas:
             casos_faixa = self.df[self.df['FAIXA_ETARIA'] == faixa]
             total_casos = len(casos_faixa)
             
             # Verificar se EVOLUCAO está presente
-            if 'EVOLUCAO' in self.df.columns:
+            if 'EVOLUCAO' in self.df.columns and total_casos > 0:
                 obitos = len(casos_faixa[casos_faixa['EVOLUCAO'] == 2])
                 taxa_letalidade = (obitos / total_casos * 100) if total_casos > 0 else 0
             else:
@@ -152,8 +198,15 @@ class DengueAdvancedProcessor:
                 'casos': int(total_casos),
                 'obitos': int(obitos),
                 'letalidade': float(taxa_letalidade),
-                'percentual_do_total': float(total_casos / len(self.df) * 100)
+                'percentual_do_total': float(total_casos / len(self.df) * 100) if len(self.df) > 0 else 0
             }
+        
+        # Adicionar informações sobre dados faltantes
+        dados_com_idade = self.df['FAIXA_ETARIA'].notna().sum()
+        dados_sem_idade = len(self.df) - dados_com_idade
+        
+        if dados_sem_idade > 0:
+            print(f"ATENCAO: {dados_sem_idade:,} registros ({dados_sem_idade/len(self.df)*100:.2f}%) nao tem idade valida!")
         
         self.stats['faixa_etaria'] = letalidade_por_faixa
         print("Análise de faixas etárias concluída!")
@@ -371,18 +424,19 @@ class DengueAdvancedProcessor:
         if 'FAIXA_ETARIA' not in self.df.columns:
             self._categorize_age_groups()
         
+        # Garantir que todas as faixas etárias estejam presentes
+        todas_faixas = ['0-4', '5-14', '15-29', '30-44', '45-59', '60+']
+        
         # Sintomas por faixa etária
         sintomas_por_faixa = {}
         
-        for faixa in self.df['FAIXA_ETARIA'].unique():
-            if pd.isna(faixa):
-                continue
-                
+        # Processar todas as faixas, mesmo as sem dados
+        for faixa in todas_faixas:
             df_faixa = self.df[self.df['FAIXA_ETARIA'] == faixa]
             sintomas_faixa = {}
             
             for sintoma in sintomas:
-                casos_sintoma = (df_faixa[sintoma] == 1).sum()
+                casos_sintoma = (df_faixa[sintoma] == 1).sum() if len(df_faixa) > 0 else 0
                 perc_sintoma = (casos_sintoma / len(df_faixa) * 100) if len(df_faixa) > 0 else 0
                 
                 sintomas_faixa[sintoma.lower()] = {

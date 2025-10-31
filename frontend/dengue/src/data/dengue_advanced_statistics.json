@@ -1,399 +1,519 @@
 {
-    "geral": {
-      "total_casos": 1502259,
-      "periodo_inicio": "2024-12-29 00:00:00",
-      "periodo_fim": "2025-07-05 00:00:00",
-      "anos_disponiveis": [
-        2024,
-        2025
-      ],
-      "estados_unicos": 27
+  "geral": {
+    "total_casos": 1502259,
+    "periodo_inicio": "2024-12-29 00:00:00",
+    "periodo_fim": "2025-07-05 00:00:00",
+    "anos_disponiveis": [
+      2024,
+      2025
+    ],
+    "estados_unicos": 27
+  },
+  "por_estado": {
+    "uf": [
+      "35",
+      "31",
+      "41",
+      "52",
+      "43",
+      "51",
+      "33",
+      "42",
+      "29",
+      "15",
+      "50",
+      "26",
+      "12",
+      "53",
+      "22",
+      "24",
+      "25",
+      "23",
+      "21",
+      "13"
+    ],
+    "casos": [
+      852320,
+      156781,
+      109960,
+      86682,
+      84052,
+      32344,
+      27994,
+      27082,
+      24695,
+      13993,
+      13483,
+      11861,
+      9140,
+      8141,
+      6695,
+      5896,
+      5017,
+      4761,
+      4748,
+      4053
+    ]
+  },
+  "por_ano": {
+    "anos": [
+      2024,
+      2025
+    ],
+    "casos": [
+      2217,
+      1500042
+    ]
+  },
+  "demografico": {
+    "sexo": {
+      "feminino": 816682,
+      "masculino": 684370
+    }
+  },
+  "sintomas": {
+    "febre": {
+      "casos": 1216830,
+      "percentual": 81.0000139789477
     },
-    "por_estado": {
-      "uf": [
-        "35",
-        "31",
-        "41",
-        "52",
-        "43",
-        "51",
-        "33",
-        "42",
-        "29",
-        "15",
-        "50",
-        "26",
-        "12",
-        "53",
-        "22",
-        "24",
-        "25",
-        "23",
-        "21",
-        "13"
-      ],
-      "casos": [
-        852320,
-        156781,
-        109960,
-        86682,
-        84052,
-        32344,
-        27994,
-        27082,
-        24695,
-        13993,
-        13483,
-        11861,
-        9140,
-        8141,
-        6695,
-        5896,
-        5017,
-        4761,
-        4748,
-        4053
-      ]
+    "mialgia": {
+      "casos": 1149289,
+      "percentual": 76.50405156500977
     },
-    "por_ano": {
-      "anos": [
-        2024,
-        2025
-      ],
-      "casos": [
-        2217,
-        1500042
-      ]
+    "cefaleia": {
+      "casos": 1147511,
+      "percentual": 76.38569647444282
     },
-    "demografico": {
-      "sexo": {
-        "feminino": 816682,
-        "masculino": 684370
-      }
+    "exantema": {
+      "casos": 114831,
+      "percentual": 7.643888304213855
     },
-    "sintomas": {
-      "febre": {
-        "casos": 1216830,
-        "percentual": 81.0000139789477
-      },
-      "mialgia": {
-        "casos": 1149289,
-        "percentual": 76.50405156500977
-      },
-      "cefaleia": {
-        "casos": 1147511,
-        "percentual": 76.38569647444282
-      },
-      "exantema": {
-        "casos": 114831,
-        "percentual": 7.643888304213855
-      },
-      "vomito": {
-        "casos": 380986,
-        "percentual": 25.360873191640053
-      },
-      "nausea": {
-        "casos": 625485,
-        "percentual": 41.63629573861764
-      }
+    "vomito": {
+      "casos": 380986,
+      "percentual": 25.360873191640053
     },
-    "faixa_etaria": {
-      "0-4": {
-        "casos": 0,
-        "obitos": 0,
-        "letalidade": 0.0,
-        "percentual_do_total": 0.0
-      },
-      "5-14": {
-        "casos": 1,
-        "obitos": 0,
-        "letalidade": 0.0,
-        "percentual_do_total": 6.656641764169827e-05
-      },
-      "15-29": {
-        "casos": 0,
-        "obitos": 0,
-        "letalidade": 0.0,
-        "percentual_do_total": 0.0
+    "nausea": {
+      "casos": 625485,
+      "percentual": 41.63629573861764
+    }
+  },
+  "faixa_etaria": {
+    "0-4": {
+      "casos": 41951,
+      "obitos": 20,
+      "letalidade": 0.0476746680651236,
+      "percentual_do_total": 2.7925277864868843
+    },
+    "5-14": {
+      "casos": 161537,
+      "obitos": 29,
+      "letalidade": 0.017952543380154392,
+      "percentual_do_total": 10.752939406587013
+    },
+    "15-29": {
+      "casos": 384902,
+      "obitos": 85,
+      "letalidade": 0.022083543343500423,
+      "percentual_do_total": 25.621547283124947
+    },
+    "30-44": {
+      "casos": 376245,
+      "obitos": 167,
+      "letalidade": 0.04438597190660341,
+      "percentual_do_total": 25.045281805600766
+    },
+    "45-59": {
+      "casos": 296229,
+      "obitos": 246,
+      "letalidade": 0.08304386133700617,
+      "percentual_do_total": 19.718903331582638
+    },
+    "60+": {
+      "casos": 237144,
+      "obitos": 858,
+      "letalidade": 0.36180548527476974,
+      "percentual_do_total": 15.785826545222895
+    }
+  },
+  "genero_detalhado": {
+    "distribuicao_por_faixa": {
+      "60+": {
+        "feminino": 137590,
+        "masculino": 99376
       },
       "30-44": {
-        "casos": 4,
-        "obitos": 0,
-        "letalidade": 0.0,
-        "percentual_do_total": 0.0002662656705667931
+        "feminino": 209081,
+        "masculino": 166848
+      },
+      "15-29": {
+        "feminino": 202486,
+        "masculino": 182112
       },
       "45-59": {
-        "casos": 0,
-        "obitos": 0,
-        "letalidade": 0.0,
-        "percentual_do_total": 0.0
+        "feminino": 170993,
+        "masculino": 125008
       },
-      "60+": {
-        "casos": 0,
-        "obitos": 0,
-        "letalidade": 0.0,
-        "percentual_do_total": 0.0
+      "5-14": {
+        "feminino": 74446,
+        "masculino": 86967
+      },
+      "0-4": {
+        "feminino": 19779,
+        "masculino": 22135
       }
     },
-    "genero_detalhado": {
-      "distribuicao_por_faixa": {
-        "30-44": {
-          "feminino": 1,
-          "masculino": 3
+    "sintomas_por_genero": {
+      "feminino": {
+        "febre": {
+          "casos": 646556,
+          "percentual": 79.1686360174462
         },
-        "5-14": {
-          "feminino": 1,
-          "masculino": 0
+        "mialgia": {
+          "casos": 629268,
+          "percentual": 77.05177780335552
+        },
+        "cefaleia": {
+          "casos": 634963,
+          "percentual": 77.7491116493323
+        },
+        "exantema": {
+          "casos": 66925,
+          "percentual": 8.194744098682229
+        },
+        "vomito": {
+          "casos": 220955,
+          "percentual": 27.05520631041213
+        },
+        "nausea": {
+          "casos": 370029,
+          "percentual": 45.30882277312344
         }
       },
-      "sintomas_por_genero": {
-        "feminino": {
-          "febre": {
-            "casos": 646556,
-            "percentual": 79.1686360174462
-          },
-          "mialgia": {
-            "casos": 629268,
-            "percentual": 77.05177780335552
-          },
-          "cefaleia": {
-            "casos": 634963,
-            "percentual": 77.7491116493323
-          },
-          "exantema": {
-            "casos": 66925,
-            "percentual": 8.194744098682229
-          },
-          "vomito": {
-            "casos": 220955,
-            "percentual": 27.05520631041213
-          },
-          "nausea": {
-            "casos": 370029,
-            "percentual": 45.30882277312344
-          }
+      "masculino": {
+        "febre": {
+          "casos": 569307,
+          "percentual": 83.18701871794497
         },
-        "masculino": {
-          "febre": {
-            "casos": 569307,
-            "percentual": 83.18701871794497
-          },
-          "mialgia": {
-            "casos": 519113,
-            "percentual": 75.85268202872714
-          },
-          "cefaleia": {
-            "casos": 511656,
-            "percentual": 74.76306676213159
-          },
-          "exantema": {
-            "casos": 47820,
-            "percentual": 6.98744831012464
-          },
-          "vomito": {
-            "casos": 159775,
-            "percentual": 23.346289287958268
-          },
-          "nausea": {
-            "casos": 255080,
-            "percentual": 37.272235778891535
-          }
-        }
-      },
-      "evolucao_por_genero": {
-        "feminino": {
-          "cura": {
-            "casos": 614208,
-            "percentual": 75.20773079362591
-          },
-          "obito": {
-            "casos": 723,
-            "percentual": 0.08852895006869259
-          }
+        "mialgia": {
+          "casos": 519113,
+          "percentual": 75.85268202872714
         },
-        "masculino": {
-          "cura": {
-            "casos": 511335,
-            "percentual": 74.71616230986162
-          },
-          "obito": {
-            "casos": 683,
-            "percentual": 0.09979981588906586
-          }
+        "cefaleia": {
+          "casos": 511656,
+          "percentual": 74.76306676213159
+        },
+        "exantema": {
+          "casos": 47820,
+          "percentual": 6.98744831012464
+        },
+        "vomito": {
+          "casos": 159775,
+          "percentual": 23.346289287958268
+        },
+        "nausea": {
+          "casos": 255080,
+          "percentual": 37.272235778891535
         }
       }
     },
-    "santa_catarina": {
-      "total_casos": 27082,
-      "municipios_afetados": 213,
-      "municipios": {
-        "codigos": [
-          "420540",
-          "420820",
-          "420200",
-          "420420",
-          "420910",
-          "420830",
-          "421660",
-          "421720",
-          "420240",
-          "420890"
-        ],
-        "casos": [
-          8951,
-          3497,
-          2436,
-          1646,
-          1371,
-          859,
-          805,
-          619,
-          606,
-          402
-        ]
+    "evolucao_por_genero": {
+      "feminino": {
+        "cura": {
+          "casos": 614208,
+          "percentual": 75.20773079362591
+        },
+        "obito": {
+          "casos": 723,
+          "percentual": 0.08852895006869259
+        }
       },
-      "criciuma": {
-        "casos": 38
-      },
-      "analise_temporal": {
-        "meses": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          12
-        ],
-        "casos": [
-          1344,
-          1611,
-          4496,
-          8742,
-          7212,
-          3112,
-          487,
-          78
-        ],
-        "crescimento_percentual": [
-          0,
-          19.866071428571427,
-          179.08131595282433,
-          94.43950177935943,
-          -17.50171585449554,
-          -56.84969495285635,
-          -84.3508997429306,
-          -83.9835728952772
-        ]
-      },
-      "comparacao_nacional": {
-        "percentual_do_total": 1.8027517225724727,
-        "incidencia_por_100k": 386.8857142857143,
-        "incidencia_nacional_por_100k": 708.6127358490567,
-        "razao_incidencia": 0.5459762359790916
+      "masculino": {
+        "cura": {
+          "casos": 511335,
+          "percentual": 74.71616230986162
+        },
+        "obito": {
+          "casos": 683,
+          "percentual": 0.09979981588906586
+        }
       }
-    },
-    "sintomas_por_perfil": {
-      "por_faixa_etaria": {
-        "30-44": {
-          "febre": {
-            "casos": 4,
-            "percentual": 100.0
-          },
-          "mialgia": {
-            "casos": 4,
-            "percentual": 100.0
-          },
-          "cefaleia": {
-            "casos": 4,
-            "percentual": 100.0
-          },
-          "exantema": {
-            "casos": 1,
-            "percentual": 25.0
-          },
-          "vomito": {
-            "casos": 1,
-            "percentual": 25.0
-          },
-          "nausea": {
-            "casos": 2,
-            "percentual": 50.0
-          }
-        },
-        "5-14": {
-          "febre": {
-            "casos": 1,
-            "percentual": 100.0
-          },
-          "mialgia": {
-            "casos": 1,
-            "percentual": 100.0
-          },
-          "cefaleia": {
-            "casos": 1,
-            "percentual": 100.0
-          },
-          "exantema": {
-            "casos": 0,
-            "percentual": 0.0
-          },
-          "vomito": {
-            "casos": 0,
-            "percentual": 0.0
-          },
-          "nausea": {
-            "casos": 0,
-            "percentual": 0.0
-          }
-        }
-      },
-      "combinacoes_mais_comuns": [
-        {
-          "sintomas": [
-            "febre",
-            "mialgia"
-          ],
-          "casos": 1010179,
-          "percentual": 67.24399720687312
-        },
-        {
-          "sintomas": [
-            "febre",
-            "cefaleia"
-          ],
-          "casos": 1010090,
-          "percentual": 67.238072795703
-        },
-        {
-          "sintomas": [
-            "mialgia",
-            "cefaleia"
-          ],
-          "casos": 982620,
-          "percentual": 65.40949330308555
-        },
-        {
-          "sintomas": [
-            "febre",
-            "nausea"
-          ],
-          "casos": 543851,
-          "percentual": 36.20221280085524
-        },
-        {
-          "sintomas": [
-            "cefaleia",
-            "nausea"
-          ],
-          "casos": 539152,
-          "percentual": 35.8894172043569
-        }
+    }
+  },
+  "santa_catarina": {
+    "total_casos": 27082,
+    "municipios_afetados": 213,
+    "municipios": {
+      "codigos": [
+        "420540",
+        "420820",
+        "420200",
+        "420420",
+        "420910",
+        "420830",
+        "421660",
+        "421720",
+        "420240",
+        "420890"
+      ],
+      "casos": [
+        8951,
+        3497,
+        2436,
+        1646,
+        1371,
+        859,
+        805,
+        619,
+        606,
+        402
       ]
     },
-    "metadata": {
-      "gerado_em": "2025-10-03T15:10:23.865131",
-      "total_registros": 1502259
+    "criciuma": {
+      "casos": 38
+    },
+    "analise_temporal": {
+      "meses": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        12
+      ],
+      "casos": [
+        1344,
+        1611,
+        4496,
+        8742,
+        7212,
+        3112,
+        487,
+        78
+      ],
+      "crescimento_percentual": [
+        0,
+        19.866071428571427,
+        179.08131595282433,
+        94.43950177935943,
+        -17.50171585449554,
+        -56.84969495285635,
+        -84.3508997429306,
+        -83.9835728952772
+      ]
+    },
+    "comparacao_nacional": {
+      "percentual_do_total": 1.8027517225724727,
+      "incidencia_por_100k": 386.8857142857143,
+      "incidencia_nacional_por_100k": 708.6127358490567,
+      "razao_incidencia": 0.5459762359790916
     }
+  },
+  "sintomas_por_perfil": {
+    "por_faixa_etaria": {
+      "0-4": {
+        "febre": {
+          "casos": 36916,
+          "percentual": 87.99790231460514
+        },
+        "mialgia": {
+          "casos": 17694,
+          "percentual": 42.177778837214845
+        },
+        "cefaleia": {
+          "casos": 15260,
+          "percentual": 36.375771733689305
+        },
+        "exantema": {
+          "casos": 6278,
+          "percentual": 14.965078305642296
+        },
+        "vomito": {
+          "casos": 13988,
+          "percentual": 33.34366284474745
+        },
+        "nausea": {
+          "casos": 10816,
+          "percentual": 25.782460489618842
+        }
+      },
+      "5-14": {
+        "febre": {
+          "casos": 140700,
+          "percentual": 87.10078805474907
+        },
+        "mialgia": {
+          "casos": 102395,
+          "percentual": 63.38795446244514
+        },
+        "cefaleia": {
+          "casos": 113497,
+          "percentual": 70.26068331094424
+        },
+        "exantema": {
+          "casos": 14636,
+          "percentual": 9.06046292799792
+        },
+        "vomito": {
+          "casos": 53410,
+          "percentual": 33.063632480484344
+        },
+        "nausea": {
+          "casos": 58801,
+          "percentual": 36.40094838953305
+        }
+      },
+      "15-29": {
+        "febre": {
+          "casos": 316697,
+          "percentual": 82.27990501478298
+        },
+        "mialgia": {
+          "casos": 301556,
+          "percentual": 78.34617642932487
+        },
+        "cefaleia": {
+          "casos": 309613,
+          "percentual": 80.43943653189643
+        },
+        "exantema": {
+          "casos": 26706,
+          "percentual": 6.938389512135556
+        },
+        "vomito": {
+          "casos": 106865,
+          "percentual": 27.764210110625566
+        },
+        "nausea": {
+          "casos": 168806,
+          "percentual": 43.85687785462273
+        }
+      },
+      "30-44": {
+        "febre": {
+          "casos": 305701,
+          "percentual": 81.2505149570094
+        },
+        "mialgia": {
+          "casos": 302638,
+          "percentual": 80.43641775970445
+        },
+        "cefaleia": {
+          "casos": 301847,
+          "percentual": 80.22618240773963
+        },
+        "exantema": {
+          "casos": 29428,
+          "percentual": 7.821499289027097
+        },
+        "vomito": {
+          "casos": 88512,
+          "percentual": 23.525096679025634
+        },
+        "nausea": {
+          "casos": 160605,
+          "percentual": 42.68628154526971
+        }
+      },
+      "45-59": {
+        "febre": {
+          "casos": 236651,
+          "percentual": 79.88785702952784
+        },
+        "mialgia": {
+          "casos": 238608,
+          "percentual": 80.54849457683076
+        },
+        "cefaleia": {
+          "casos": 234893,
+          "percentual": 79.29439723997312
+        },
+        "exantema": {
+          "casos": 22561,
+          "percentual": 7.61606729928535
+        },
+        "vomito": {
+          "casos": 64790,
+          "percentual": 21.871592585465972
+        },
+        "nausea": {
+          "casos": 127408,
+          "percentual": 43.00996863912716
+        }
+      },
+      "60+": {
+        "febre": {
+          "casos": 176586,
+          "percentual": 74.46361704280943
+        },
+        "mialgia": {
+          "casos": 183111,
+          "percentual": 77.21510980669973
+        },
+        "cefaleia": {
+          "casos": 169016,
+          "percentual": 71.27146375198193
+        },
+        "exantema": {
+          "casos": 14669,
+          "percentual": 6.185693080997201
+        },
+        "vomito": {
+          "casos": 52351,
+          "percentual": 22.075616503053
+        },
+        "nausea": {
+          "casos": 97458,
+          "percentual": 41.096548932294304
+        }
+      }
+    },
+    "combinacoes_mais_comuns": [
+      {
+        "sintomas": [
+          "febre",
+          "mialgia"
+        ],
+        "casos": 1010179,
+        "percentual": 67.24399720687312
+      },
+      {
+        "sintomas": [
+          "febre",
+          "cefaleia"
+        ],
+        "casos": 1010090,
+        "percentual": 67.238072795703
+      },
+      {
+        "sintomas": [
+          "mialgia",
+          "cefaleia"
+        ],
+        "casos": 982620,
+        "percentual": 65.40949330308555
+      },
+      {
+        "sintomas": [
+          "febre",
+          "nausea"
+        ],
+        "casos": 543851,
+        "percentual": 36.20221280085524
+      },
+      {
+        "sintomas": [
+          "cefaleia",
+          "nausea"
+        ],
+        "casos": 539152,
+        "percentual": 35.8894172043569
+      }
+    ]
+  },
+  "metadata": {
+    "gerado_em": "2025-10-31T19:34:14.696668",
+    "total_registros": 1502259
   }
+}
