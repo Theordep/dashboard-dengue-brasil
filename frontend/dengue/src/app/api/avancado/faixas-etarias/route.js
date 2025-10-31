@@ -1,0 +1,50 @@
+import { NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
+
+export async function GET() {
+    try {
+        const filePath = path.join(process.cwd(), 'public', 'data', 'dengue_advanced_statistics.json');
+        const fileContents = fs.readFileSync(filePath, 'utf8');
+        const data = JSON.parse(fileContents);
+
+        const faixasData = data.faixa_etaria || {};
+        const ordem_faixas = ['0-4', '5-14', '15-29', '30-44', '45-59', '60+'];
+
+        const faixas = [];
+        const casos = [];
+        const obitos = [];
+        const letalidade = [];
+        const percentuais = [];
+
+        for (const faixa of ordem_faixas) {
+            if (faixa in faixasData) {
+                faixas.push(faixa);
+                casos.push(faixasData[faixa].casos || 0);
+                obitos.push(faixasData[faixa].obitos || 0);
+                letalidade.push(faixasData[faixa].letalidade || 0);
+                percentuais.push(faixasData[faixa].percentual_do_total || 0);
+            }
+        }
+
+        return NextResponse.json({
+            faixas,
+            casos,
+            obitos,
+            letalidade,
+            percentuais,
+            destaques: {
+                faixa_mais_afetada: faixas.length > 0 ? faixas[casos.indexOf(Math.max(...casos))] : null,
+                faixa_maior_letalidade: faixas.length > 0 ? faixas[letalidade.indexOf(Math.max(...letalidade))] : null,
+                total_casos_criancas: faixasData['0-4']?.casos || 0,
+                total_casos_idosos: faixasData['60+']?.casos || 0
+            }
+        });
+    } catch (error) {
+        return NextResponse.json(
+            { error: 'Erro ao buscar dados de faixas etárias' },
+            { status: 500 }
+        );
+    }
+}
+

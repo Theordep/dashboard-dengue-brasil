@@ -88,6 +88,8 @@ Thumbs.db
 !requirements.txt
 !package.json
 !package-lock.json
+# Allow data JSONs for deployment
+!frontend/dengue/public/data/*.json
 
 # Logs
 logs/
