@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { readJsonFile } from '@/lib/fileReader';
 
 const nomes_municipios = {
     '420540': 'Florianópolis',
@@ -18,9 +17,7 @@ const nomes_municipios = {
 
 export async function GET() {
     try {
-        const filePath = path.join(process.cwd(), 'public', 'data', 'dengue_advanced_statistics.json');
-        const fileContents = fs.readFileSync(filePath, 'utf8');
-        const data = JSON.parse(fileContents);
+        const data = readJsonFile('dengue_advanced_statistics.json');
 
         const scData = data.santa_catarina || {};
         const municipios_data = scData.municipios || {};
@@ -43,7 +40,14 @@ export async function GET() {
             comparacao_nacional: scData.comparacao_nacional || {},
             destaques: {
                 municipio_mais_casos: nomes[0] || null,
-                percentual_do_total_nacional: scData.comparacao_nacional?.percentual_do_total || 0
+                percentual_do_total_nacional: scData.comparacao_nacional?.percentual_do_total || 0,
+                incidencia_vs_nacional: scData.comparacao_nacional?.razao_incidencia || 0,
+                maior_crescimento_mensal: (() => {
+                    const crescimento = scData.analise_temporal?.crescimento_percentual;
+                    if (!crescimento || !Array.isArray(crescimento)) return 0;
+                    const numeros = crescimento.filter(v => typeof v === 'number' && !isNaN(v));
+                    return numeros.length > 0 ? Math.max(...numeros) : 0;
+                })()
             },
             criciuma: scData.criciuma || {}
         });

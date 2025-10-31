@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { readJsonFile } from '@/lib/fileReader';
 
 const UF_CODES = {
     '11': 'Rondônia', '12': 'Acre', '13': 'Amazonas', '14': 'Roraima', '15': 'Pará',
@@ -14,9 +13,7 @@ const UF_CODES = {
 
 export async function GET() {
     try {
-        const filePath = path.join(process.cwd(), 'public', 'data', 'dengue_statistics.json');
-        const fileContents = fs.readFileSync(filePath, 'utf8');
-        const data = JSON.parse(fileContents);
+        const data = readJsonFile('dengue_statistics.json');
 
         const estadosData = data.por_estado || {};
         const estados_com_nomes = [];

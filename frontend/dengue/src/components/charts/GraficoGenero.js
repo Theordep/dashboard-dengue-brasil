@@ -35,15 +35,15 @@ export default function GraficoGenero({ data }) {
     const faixas = Object.keys(distribuicao);
 
     // Extrair dados para feminino e masculino
-    const dadosFeminino = faixas.map(faixa => distribuicao[faixa].feminino);
-    const dadosMasculino = faixas.map(faixa => distribuicao[faixa].masculino);
+    const dadosFeminino = faixas.map(faixa => distribuicao[faixa]?.feminino || 0);
+    const dadosMasculino = faixas.map(faixa => distribuicao[faixa]?.masculino || 0);
 
     // Verificar se há valores muito discrepantes que justificam escala logarítmica
     const todosValores = [...dadosFeminino, ...dadosMasculino];
     const valoresPositivos = todosValores.filter(v => v > 0);
-    const maxValue = Math.max(...valoresPositivos);
-    const minValue = Math.min(...valoresPositivos);
-    const useLogScale = maxValue / minValue > 100;
+    const maxValue = valoresPositivos.length > 0 ? Math.max(...valoresPositivos) : 1;
+    const minValue = valoresPositivos.length > 0 ? Math.min(...valoresPositivos) : 1;
+    const useLogScale = valoresPositivos.length > 0 && maxValue > 0 && minValue > 0 && maxValue / minValue > 100;
 
     const chartData = {
         labels: faixas,
@@ -87,7 +87,8 @@ export default function GraficoGenero({ data }) {
                         if (label) {
                             label += ': ';
                         }
-                        label += context.raw.toLocaleString('pt-BR');
+                        const value = context.raw || 0;
+                        label += typeof value === 'number' ? value.toLocaleString('pt-BR') : '0';
                         return label;
                     }
                 }

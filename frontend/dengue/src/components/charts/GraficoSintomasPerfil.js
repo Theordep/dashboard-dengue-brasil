@@ -21,10 +21,18 @@ ChartJS.register(
 );
 
 export default function GraficoSintomasPerfil({ data, faixaEtaria }) {
-    if (!data || !data.por_faixa_etaria || !data.por_faixa_etaria[faixaEtaria]) {
+    if (!data || !data.por_faixa_etaria || !faixaEtaria || !data.por_faixa_etaria[faixaEtaria]) {
         return (
-            <div className="h-80 bg-white rounded-lg shadow-md p-4 animate-pulse">
-                <div className="h-full bg-gray-200 rounded"></div>
+            <div className="h-80 bg-white rounded-lg shadow-md p-4 flex items-center justify-center">
+                <div className="text-center text-gray-500">
+                    <p className="text-lg font-medium">
+                        {!data || !data.por_faixa_etaria
+                            ? 'Dados não disponíveis'
+                            : !faixaEtaria
+                                ? 'Selecione uma faixa etária'
+                                : 'Dados não disponíveis para esta faixa etária'}
+                    </p>
+                </div>
             </div>
         );
     }
@@ -33,7 +41,10 @@ export default function GraficoSintomasPerfil({ data, faixaEtaria }) {
 
     // Extrair sintomas e percentuais
     const sintomas = Object.keys(sintomasFaixa).map(s => s.charAt(0).toUpperCase() + s.slice(1));
-    const percentuais = Object.values(sintomasFaixa).map(v => v.percentual);
+    const percentuais = Object.values(sintomasFaixa).map(v => {
+        const percentual = v?.percentual;
+        return typeof percentual === 'number' ? percentual : 0;
+    });
 
     const chartData = {
         labels: sintomas,
@@ -71,7 +82,8 @@ export default function GraficoSintomasPerfil({ data, faixaEtaria }) {
             tooltip: {
                 callbacks: {
                     label: function (context) {
-                        return `${context.label}: ${context.raw.toFixed(2)}%`;
+                        const value = context.raw || 0;
+                        return `${context.label}: ${typeof value === 'number' ? value.toFixed(2) : '0.00'}%`;
                     }
                 }
             }

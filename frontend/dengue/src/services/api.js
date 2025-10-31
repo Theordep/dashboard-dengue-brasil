@@ -18,69 +18,69 @@ const api = axios.create({
 export const apiService = {
     // Verificação de saúde da API
     healthCheck: () => {
-        return api.get('/health/');
+        return api.get('/health');
     },
 
     // Informações gerais da API
     getApiInfo: () => {
-        return api.get('/info/');
+        return api.get('/info');
     },
 
     // Dados do dashboard
     getDashboardData: () => {
-        return api.get('/dashboard/');
+        return api.get('/dashboard');
     },
 
     // Dados de estatísticas por estado
     getEstadosData: () => {
-        return api.get('/estados/');
+        return api.get('/estados');
     },
 
     // Dados de estatísticas por ano
     getAnosData: () => {
-        return api.get('/anos/');
+        return api.get('/anos');
     },
 
     // Dados de sintomas mais comuns
     getSintomasData: () => {
-        return api.get('/sintomas/');
+        return api.get('/sintomas');
     },
 
     // Detalhes de Santa Catarina
     getSantaCatarinaData: () => {
-        return api.get('/santa-catarina/');
+        return api.get('/santa-catarina');
     },
 
     // Carregar estatísticas do arquivo JSON
     loadStatistics: () => {
-        return api.post('/carregar-estatisticas/');
+        return api.post('/carregar-estatisticas');
     },
 
     // API Avançada
 
     // Dados de faixas etárias
     getFaixasEtarias: () => {
-        return api.get('/avancado/faixas-etarias/');
+        return api.get('/avancado/faixas-etarias');
     },
 
     // Dados detalhados por gênero
     getGeneroDetalhado: () => {
-        return api.get('/avancado/genero/');
+        return api.get('/avancado/genero');
     },
 
     // Dados avançados de Santa Catarina
     getSantaCatarinaAvancado: () => {
-        return api.get('/avancado/santa-catarina/');
+        return api.get('/avancado/santa-catarina');
     },
 
     // Dados de sintomas por perfil
     getSintomasPorPerfil: () => {
-        return api.get('/avancado/sintomas-por-perfil/');
+        return api.get('/avancado/sintomas-por-perfil');
     },
 
     // Carregar estatísticas avançadas do arquivo JSON
     loadAdvancedStatistics: () => {
-        return api.post('/avancado/carregar-estatisticas/');
+        return api.post('/avancado/carregar-estatisticas');
     }
 };
 

@@ -1,12 +1,9 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { readJsonFile } from '@/lib/fileReader';
 
 export async function GET() {
     try {
-        const filePath = path.join(process.cwd(), 'public', 'data', 'dengue_statistics.json');
-        const fileContents = fs.readFileSync(filePath, 'utf8');
-        const data = JSON.parse(fileContents);
+        const data = readJsonFile('dengue_statistics.json');
 
         const anosData = data.por_ano || {};
 

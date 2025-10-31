@@ -32,9 +32,10 @@ export default function GraficoFaixaEtaria({ data }) {
     }
 
     // Verificar se há valores muito discrepantes que justificam escala logarítmica
+    const valoresPositivos = data.casos.filter(v => v > 0);
     const maxValue = Math.max(...data.casos);
-    const minValue = Math.min(...data.casos.filter(v => v > 0));
-    const useLogScale = maxValue / minValue > 100;
+    const minValue = valoresPositivos.length > 0 ? Math.min(...valoresPositivos) : 1;
+    const useLogScale = valoresPositivos.length > 0 && maxValue > 0 && minValue > 0 && maxValue / minValue > 100;
 
     const chartData = {
         labels: data.faixas,
@@ -101,9 +102,11 @@ export default function GraficoFaixaEtaria({ data }) {
                             label += ': ';
                         }
                         if (context.dataset.yAxisID === 'y1') {
-                            label += context.raw.toFixed(2) + '%';
+                            const value = context.raw || 0;
+                            label += (typeof value === 'number' ? value.toFixed(2) : '0.00') + '%';
                         } else {
-                            label += context.raw.toLocaleString('pt-BR');
+                            const value = context.raw || 0;
+                            label += typeof value === 'number' ? value.toLocaleString('pt-BR') : '0';
                         }
                         return label;
                     }
@@ -144,6 +147,7 @@ export default function GraficoFaixaEtaria({ data }) {
                 },
                 ticks: {
                     callback: function (value) {
+                        if (typeof value !== 'number' || isNaN(value)) return '0%';
                         return value.toFixed(2) + '%';
                     }
                 }

@@ -13,7 +13,7 @@ export default function AnaliseAvancada() {
     const [generoData, setGeneroData] = useState(null);
     const [sintomasPerfilData, setSintomasPerfilData] = useState(null);
     const [santaCatarinaData, setSantaCatarinaData] = useState(null);
-    const [faixaSelecionada, setFaixaSelecionada] = useState('0-4');
+    const [faixaSelecionada, setFaixaSelecionada] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -45,7 +45,7 @@ export default function AnaliseAvancada() {
                 try {
                     const response = await apiService.getSintomasPorPerfil();
                     setSintomasPerfilData(response.data);
-                    console.log('Dados de sintomas por perfil carregados com sucesso!');
+                    console.log('Dados de sintomas por perfil carregados com sucesso!', response.data);
                 } catch (err) {
                     console.error('Erro ao carregar dados de sintomas por perfil:', err);
                 }
@@ -69,6 +69,22 @@ export default function AnaliseAvancada() {
 
         loadData();
     }, []);
+
+    // Atualizar faixa selecionada quando os dados forem carregados
+    useEffect(() => {
+        if (sintomasPerfilData && sintomasPerfilData.por_faixa_etaria) {
+            const faixasDisponiveis = Object.keys(sintomasPerfilData.por_faixa_etaria);
+            if (faixasDisponiveis.length > 0) {
+                // Se não tem faixa selecionada OU a faixa selecionada não existe mais
+                setFaixaSelecionada(prev => {
+                    if (!prev || !faixasDisponiveis.includes(prev)) {
+                        return faixasDisponiveis[0];
+                    }
+                    return prev;
+                });
+            }
+        }
+    }, [sintomasPerfilData]);
 
     const handleCarregarEstatisticasAvancadas = async () => {
         try {
@@ -153,22 +169,22 @@ export default function AnaliseAvancada() {
                                             <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
                                                 <p className="text-sm text-gray-600">Faixa mais afetada</p>
                                                 <p className="text-lg font-bold text-blue-700">
-                                                    {faixasEtariasData.destaques.faixa_mais_afetada}
+                                                    {faixasEtariasData.destaques?.faixa_mais_afetada || 'N/A'}
                                                 </p>
                                             </div>
 
                                             <div className="bg-red-50 p-3 rounded-lg border border-red-200">
                                                 <p className="text-sm text-gray-600">Maior letalidade</p>
                                                 <p className="text-lg font-bold text-red-700">
-                                                    {faixasEtariasData.destaques.faixa_maior_letalidade}
+                                                    {faixasEtariasData.destaques?.faixa_maior_letalidade || 'N/A'}
                                                 </p>
                                             </div>
 
                                             <div className="bg-amber-50 p-3 rounded-lg border border-amber-200">
                                                 <p className="text-sm text-gray-600">Casos em grupos de risco</p>
                                                 <p className="text-lg font-bold text-amber-700">
-                                                    {(faixasEtariasData.destaques.total_casos_criancas +
-                                                        faixasEtariasData.destaques.total_casos_idosos).toLocaleString('pt-BR')}
+                                                    {((faixasEtariasData.destaques?.total_casos_criancas || 0) +
+                                                        (faixasEtariasData.destaques?.total_casos_idosos || 0)).toLocaleString('pt-BR')}
                                                 </p>
                                             </div>
                                         </div>
@@ -192,14 +208,14 @@ export default function AnaliseAvancada() {
                                             <div className="bg-purple-50 p-3 rounded-lg border border-purple-200">
                                                 <p className="text-sm text-gray-600">Faixa com maior diferença entre gêneros</p>
                                                 <p className="text-lg font-bold text-purple-700">
-                                                    {generoData.destaques.faixa_maior_diferenca}
+                                                    {generoData.destaques?.faixa_maior_diferenca || 'N/A'}
                                                 </p>
                                             </div>
 
                                             <div className="bg-green-50 p-3 rounded-lg border border-green-200">
                                                 <p className="text-sm text-gray-600">Sintoma com maior diferença entre gêneros</p>
                                                 <p className="text-lg font-bold text-green-700">
-                                                    {generoData.destaques.sintoma_maior_diferenca}
+                                                    {generoData.destaques?.sintoma_maior_diferenca || 'N/A'}
                                                 </p>
                                             </div>
                                         </div>
@@ -218,7 +234,7 @@ export default function AnaliseAvancada() {
                             <div className="bg-white rounded-lg shadow-md p-4">
                                 <h3 className="text-lg font-semibold mb-3">Sintomas por Faixa Etária</h3>
 
-                                {sintomasPerfilData ? (
+                                {sintomasPerfilData && sintomasPerfilData.por_faixa_etaria ? (
                                     <>
                                         <div className="mb-4">
                                             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -226,14 +242,18 @@ export default function AnaliseAvancada() {
                                             </label>
                                             <select
                                                 className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                                value={faixaSelecionada}
+                                                value={faixaSelecionada || ''}
                                                 onChange={(e) => setFaixaSelecionada(e.target.value)}
                                             >
-                                                {Object.keys(sintomasPerfilData.por_faixa_etaria).map(faixa => (
-                                                    <option key={faixa} value={faixa}>
-                                                        {faixa} anos
-                                                    </option>
-                                                ))}
+                                                {Object.keys(sintomasPerfilData.por_faixa_etaria).length > 0 ? (
+                                                    Object.keys(sintomasPerfilData.por_faixa_etaria).map(faixa => (
+                                                        <option key={faixa} value={faixa}>
+                                                            {faixa} anos
+                                                        </option>
+                                                    ))
+                                                ) : (
+                                                    <option value="">Nenhuma faixa disponível</option>
+                                                )}
                                             </select>
                                         </div>
 
@@ -247,31 +267,43 @@ export default function AnaliseAvancada() {
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                                             <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
                                                 <p className="text-sm text-gray-600">Sintoma mais comum em crianças</p>
-                                                <p className="text-lg font-bold text-blue-700">
-                                                    {sintomasPerfilData.destaques.sintoma_mais_comum_criancas}
+                                                <p className="text-lg font-bold text-blue-700 capitalize">
+                                                    {sintomasPerfilData.destaques?.sintoma_mais_comum_criancas
+                                                        ? sintomasPerfilData.destaques.sintoma_mais_comum_criancas.charAt(0).toUpperCase() +
+                                                        sintomasPerfilData.destaques.sintoma_mais_comum_criancas.slice(1)
+                                                        : 'N/A'}
                                                 </p>
                                             </div>
 
                                             <div className="bg-amber-50 p-3 rounded-lg border border-amber-200">
                                                 <p className="text-sm text-gray-600">Sintoma mais comum em idosos</p>
-                                                <p className="text-lg font-bold text-amber-700">
-                                                    {sintomasPerfilData.destaques.sintoma_mais_comum_idosos}
+                                                <p className="text-lg font-bold text-amber-700 capitalize">
+                                                    {sintomasPerfilData.destaques?.sintoma_mais_comum_idosos
+                                                        ? sintomasPerfilData.destaques.sintoma_mais_comum_idosos.charAt(0).toUpperCase() +
+                                                        sintomasPerfilData.destaques.sintoma_mais_comum_idosos.slice(1)
+                                                        : 'N/A'}
                                                 </p>
                                             </div>
                                         </div>
 
                                         <div className="mt-6">
                                             <h4 className="text-md font-semibold mb-2">Combinações de Sintomas Mais Comuns</h4>
-                                            <ul className="space-y-2">
-                                                {sintomasPerfilData.combinacoes_mais_comuns.map((combinacao, index) => (
-                                                    <li key={index} className="bg-gray-50 p-2 rounded border border-gray-200">
-                                                        <span className="font-medium">{combinacao.sintomas.join(' + ')}</span>
-                                                        <span className="text-sm text-gray-600 ml-2">
-                                                            ({combinacao.percentual.toFixed(2)}% dos casos)
-                                                        </span>
-                                                    </li>
-                                                ))}
-                                            </ul>
+                                            {sintomasPerfilData.combinacoes_mais_comuns && sintomasPerfilData.combinacoes_mais_comuns.length > 0 ? (
+                                                <ul className="space-y-2">
+                                                    {sintomasPerfilData.combinacoes_mais_comuns.map((combinacao, index) => (
+                                                        <li key={index} className="bg-gray-50 p-2 rounded border border-gray-200">
+                                                            <span className="font-medium">{combinacao.sintomas?.join(' + ') || 'N/A'}</span>
+                                                            <span className="text-sm text-gray-600 ml-2">
+                                                                ({combinacao.percentual !== undefined && combinacao.percentual !== null
+                                                                    ? combinacao.percentual.toFixed(2)
+                                                                    : '0.00'}% dos casos)
+                                                            </span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            ) : (
+                                                <p className="text-gray-500 italic">Nenhuma combinação disponível</p>
+                                            )}
                                         </div>
                                     </>
                                 ) : (
@@ -298,21 +330,25 @@ export default function AnaliseAvancada() {
                                             <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
                                                 <p className="text-sm text-gray-600">Município com mais casos</p>
                                                 <p className="text-lg font-bold text-blue-700">
-                                                    {santaCatarinaData.destaques.municipio_mais_casos}
+                                                    {santaCatarinaData.destaques?.municipio_mais_casos || 'N/A'}
                                                 </p>
                                             </div>
 
                                             <div className="bg-green-50 p-3 rounded-lg border border-green-200">
                                                 <p className="text-sm text-gray-600">% do total nacional</p>
                                                 <p className="text-lg font-bold text-green-700">
-                                                    {santaCatarinaData.destaques.percentual_do_total_nacional.toFixed(2)}%
+                                                    {santaCatarinaData.destaques?.percentual_do_total_nacional
+                                                        ? santaCatarinaData.destaques.percentual_do_total_nacional.toFixed(2)
+                                                        : '0.00'}%
                                                 </p>
                                             </div>
 
                                             <div className="bg-purple-50 p-3 rounded-lg border border-purple-200">
                                                 <p className="text-sm text-gray-600">Incidência vs. nacional</p>
                                                 <p className="text-lg font-bold text-purple-700">
-                                                    {santaCatarinaData.destaques.incidencia_vs_nacional.toFixed(2)}x
+                                                    {santaCatarinaData.destaques?.incidencia_vs_nacional
+                                                        ? santaCatarinaData.destaques.incidencia_vs_nacional.toFixed(2)
+                                                        : '0.00'}x
                                                 </p>
                                             </div>
                                         </div>
@@ -335,7 +371,9 @@ export default function AnaliseAvancada() {
                                         <div className="bg-amber-50 p-3 rounded-lg border border-amber-200 mt-4">
                                             <p className="text-sm text-gray-600">Maior crescimento mensal</p>
                                             <p className="text-lg font-bold text-amber-700">
-                                                {santaCatarinaData.destaques.maior_crescimento_mensal.toFixed(2)}%
+                                                {santaCatarinaData.destaques?.maior_crescimento_mensal !== undefined
+                                                    ? santaCatarinaData.destaques.maior_crescimento_mensal.toFixed(2)
+                                                    : '0.00'}%
                                             </p>
                                         </div>
                                     </>
