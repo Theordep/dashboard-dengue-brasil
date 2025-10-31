@@ -10,6 +10,7 @@ import {
     Tooltip,
     Legend
 } from 'chart.js';
+import { translateSymptom } from '@/lib/translateSymptoms';
 
 ChartJS.register(
     RadialLinearScale,
@@ -39,8 +40,8 @@ export default function GraficoSintomasPerfil({ data, faixaEtaria }) {
 
     const sintomasFaixa = data.por_faixa_etaria[faixaEtaria];
 
-    // Extrair sintomas e percentuais
-    const sintomas = Object.keys(sintomasFaixa).map(s => s.charAt(0).toUpperCase() + s.slice(1));
+    // Extrair sintomas e percentuais (com tradução)
+    const sintomas = Object.keys(sintomasFaixa).map(s => translateSymptom(s));
     const percentuais = Object.values(sintomasFaixa).map(v => {
         const percentual = v?.percentual;
         return typeof percentual === 'number' ? percentual : 0;

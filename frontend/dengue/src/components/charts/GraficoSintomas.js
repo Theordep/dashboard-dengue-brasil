@@ -10,6 +10,7 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
+import { translateSymptom } from '@/lib/translateSymptoms';
 
 // Registrar componentes do Chart.js
 ChartJS.register(
@@ -32,7 +33,7 @@ export default function GraficoSintomas({ data }) {
 
     // Converter objeto de sintomas para array
     const sintomasArray = Object.entries(data).map(([nome, dados]) => ({
-        nome: nome.toUpperCase(),
+        nome: translateSymptom(nome.toUpperCase()),
         casos: dados.casos,
         percentual: dados.percentual
     }));

@@ -63,8 +63,8 @@ export default function SobrePage() {
                             <h3>Sintomas Mais Comuns</h3>
                             <ol>
                                 <li><strong>Febre</strong>: 84.4% dos casos</li>
-                                <li><strong>Cefaleia</strong>: 78.6% dos casos</li>
-                                <li><strong>Mialgia</strong>: 76.1% dos casos</li>
+                                <li><strong>Dor de Cabeça</strong>: 78.6% dos casos</li>
+                                <li><strong>Dor Muscular</strong>: 76.1% dos casos</li>
                             </ol>
 
                             <h2>Situação de Criciúma</h2>

@@ -7,6 +7,7 @@ import GraficoFaixaEtaria from '@/components/charts/GraficoFaixaEtaria';
 import GraficoGenero from '@/components/charts/GraficoGenero';
 import GraficoSintomasPerfil from '@/components/charts/GraficoSintomasPerfil';
 import { GraficoMunicipiosSC, GraficoCrescimentoSC } from '@/components/charts/GraficoSCAvancado';
+import { translateSymptom } from '@/lib/translateSymptoms';
 
 export default function AnaliseAvancada() {
     const [faixasEtariasData, setFaixasEtariasData] = useState(null);
@@ -267,20 +268,18 @@ export default function AnaliseAvancada() {
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                                             <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
                                                 <p className="text-sm text-gray-600">Sintoma mais comum em crianças</p>
-                                                <p className="text-lg font-bold text-blue-700 capitalize">
+                                                <p className="text-lg font-bold text-blue-700">
                                                     {sintomasPerfilData.destaques?.sintoma_mais_comum_criancas
-                                                        ? sintomasPerfilData.destaques.sintoma_mais_comum_criancas.charAt(0).toUpperCase() +
-                                                        sintomasPerfilData.destaques.sintoma_mais_comum_criancas.slice(1)
+                                                        ? translateSymptom(sintomasPerfilData.destaques.sintoma_mais_comum_criancas)
                                                         : 'N/A'}
                                                 </p>
                                             </div>
 
                                             <div className="bg-amber-50 p-3 rounded-lg border border-amber-200">
                                                 <p className="text-sm text-gray-600">Sintoma mais comum em idosos</p>
-                                                <p className="text-lg font-bold text-amber-700 capitalize">
+                                                <p className="text-lg font-bold text-amber-700">
                                                     {sintomasPerfilData.destaques?.sintoma_mais_comum_idosos
-                                                        ? sintomasPerfilData.destaques.sintoma_mais_comum_idosos.charAt(0).toUpperCase() +
-                                                        sintomasPerfilData.destaques.sintoma_mais_comum_idosos.slice(1)
+                                                        ? translateSymptom(sintomasPerfilData.destaques.sintoma_mais_comum_idosos)
                                                         : 'N/A'}
                                                 </p>
                                             </div>
@@ -292,7 +291,9 @@ export default function AnaliseAvancada() {
                                                 <ul className="space-y-2">
                                                     {sintomasPerfilData.combinacoes_mais_comuns.map((combinacao, index) => (
                                                         <li key={index} className="bg-gray-50 p-2 rounded border border-gray-200">
-                                                            <span className="font-medium">{combinacao.sintomas?.join(' + ') || 'N/A'}</span>
+                                                            <span className="font-medium">
+                                                                {combinacao.sintomas?.map(s => translateSymptom(s)).join(' + ') || 'N/A'}
+                                                            </span>
                                                             <span className="text-sm text-gray-600 ml-2">
                                                                 ({combinacao.percentual !== undefined && combinacao.percentual !== null
                                                                     ? combinacao.percentual.toFixed(2)

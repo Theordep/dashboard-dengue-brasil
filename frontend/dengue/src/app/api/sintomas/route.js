@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import data from '@/data/dengue_statistics.json';
+import { translateSymptom } from '@/lib/translateSymptoms';
 
 export async function GET() {
     try {
@@ -9,7 +10,7 @@ export async function GET() {
 
         for (const [sintoma, dados] of Object.entries(sintomasData)) {
             sintomas_lista.push({
-                nome: sintoma.toUpperCase(),
+                nome: translateSymptom(sintoma.toUpperCase()),
                 casos: dados.casos || 0,
                 percentual: dados.percentual || 0
             });
