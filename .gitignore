@@ -93,6 +93,8 @@ Thumbs.db
 # Allow data JSONs for deployment
 !frontend/dengue/public/data/*.json
 !frontend/dengue/src/data/*.json
+# Allow Vercel config
+!frontend/dengue/vercel.json
 
 # Logs
 logs/
